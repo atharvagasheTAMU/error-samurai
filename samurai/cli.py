@@ -7,6 +7,7 @@ from rich.prompt import Prompt
 from rich.table import Table
 
 from core.capture import capture_incident, load_last_error
+from core.context import format_samurai_context
 from core.search import SearchOutcome, search_memories_for_query
 from core.solved import SolvedResult, solve_active_incident
 
@@ -62,6 +63,18 @@ def search(query: Optional[str] = typer.Argument(None, help="Search text.")) -> 
         raise typer.Exit(code=1) from exc
 
     _render_search(outcome)
+
+
+@app.command("context")
+def context_command(query: Optional[str] = typer.Argument(None, help="Search text.")) -> None:
+    """Print LLM-ready memory context for debugging."""
+    try:
+        outcome = search_memories_for_query(query)
+    except LookupError as exc:
+        console.print(f"[yellow]{exc}[/yellow]")
+        raise typer.Exit(code=1) from exc
+
+    console.print(format_samurai_context(outcome))
 
 
 @app.command()
