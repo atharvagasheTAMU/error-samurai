@@ -1,0 +1,29 @@
+---
+description: Use Error Samurai memory proactively during debugging
+alwaysApply: true
+---
+
+# Error Samurai Debugging
+
+When Cursor identifies, investigates, or fixes an error in this project, use Error Samurai even if the user did not explicitly ask for it.
+
+Before proposing or applying a fix for a concrete error:
+
+1. Capture the exact error text from terminal output, test output, stack traces, diagnostics, or the user message.
+2. Run from the repository root:
+
+```powershell
+uv run samurai capture "<error text>"
+uv run samurai context
+```
+
+3. Paste or summarize the `samurai context` output before debugging.
+4. Use relevant memory results while debugging. If the context says no relevant memory was found, continue normal debugging.
+
+After the fix is complete, ask before saving unless the user requested automatic saving:
+
+```powershell
+uv run samurai solved --yes --note "<short fix summary>"
+```
+
+Do not save trivial noise unless the fix is reusable.
