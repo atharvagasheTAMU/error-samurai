@@ -42,6 +42,3 @@ uv run samurai search "pytest import error numpy"
 
 The final search should return a useful saved or seeded memory with likely root
 cause, fix steps, tags, confidence, and timestamp.
-
-The MVP intentionally avoids MCP, hooks, vector databases, dashboards, cloud
-storage, and team sync.
